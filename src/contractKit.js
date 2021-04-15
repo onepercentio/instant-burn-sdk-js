@@ -6,11 +6,14 @@ const NETWORKS = {
 }
 
 module.exports = {
-  newKit: (privateKey, network) => {
+  newKit: async (privateKey, network) => {
     if (!privateKey) throw Error('Invalid private key')
 
     const kit = newKit(network ?? NETWORKS.TESTNET)
     kit.connection.addAccount(privateKey)
+
+    const [account] = await kit.web3.eth.getAccounts()
+    kit.defaultAccount = account
 
     return kit
   },
