@@ -1,5 +1,5 @@
 /**
- * @description igual a funcionalidade nativa do Lodash.pick retorna um novo Objeto apartir de um array que faz a comparação dos objetos e do valores que estão no array
+ * @description just like the native functionality of Lodash.pick returns a new object from an array that compares the objects and values that are in the array
  *
  * @param {Object} object
  * @param {Array<String>} keys

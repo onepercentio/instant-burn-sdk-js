@@ -19,8 +19,10 @@ module.exports = {
 
   testPathIgnorePatterns: [
     '\\\\node_modules\\\\',
+    '!*.d.ts'
   ],
   coveragePathIgnorePatterns: [
     '\\\\node_modules\\\\',
+    '!*.d.ts'
   ]
 };

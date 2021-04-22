@@ -11,7 +11,19 @@ const CARBON_CHAIN_ADDRESS = '0x16a6182114b625871c4CA873a89fDC7C9f2E5C33'
 const OFFSET_FIELDS = ['carbonTon', 'transactionInfo', 'onBehalfOf', 'sender', 'offsetHash', 'batchNumber']
 const BATCH_FIELDS = ['totalCarbonOffset', 'hashChain', 'timestamp']
 
+/**
+ * @typedef {import('@celo/contractkit').ContractKit} Kit
+ */
+
+/**
+ * 
+ * @param {Kit} kit 
+ */
 const getCMCO2Instance = kit => new kit.web3.eth.Contract(ERC20Abi, CMCO2_ADDRESS)
+/**
+ * 
+ * @param {Kit} kit 
+ */
 const getCarbonChainInstance = kit => new kit.web3.eth.Contract(CarbonChainAbi, CARBON_CHAIN_ADDRESS)
 
 const carbonChain = async (privateKey, network) => {
@@ -68,12 +80,25 @@ const carbonChain = async (privateKey, network) => {
 
       return _.pick(batch, BATCH_FIELDS)
     },
+    /**
+     * 
+     * @param {number} offsetIndex 
+     * @param {number} batchIndex 
+     * @return {Promise<boolean>}
+     */
     check: async (offsetIndex, batchIndex) => {
-      const [offset, batch, previousBatch] = await Promise.all([
+
+      const carbonChainInstancePromises = [
         carbonChainInstance.methods.transactions(offsetIndex).call(),
         carbonChainInstance.methods.batches(batchIndex).call(),
-        carbonChainInstance.methods.batches(batchIndex - 1).call()
-      ])
+      ]
+
+      if (batchIndex <= 0)
+        carbonChainInstancePromises.push(Promise.resolve({ hashChain: 0 }))
+      else
+        carbonChainInstancePromises.push(carbonChainInstance.methods.batches(batchIndex - 1).call())
+
+      const [offset, batch, previousBatch] = await Promise.all(carbonChainInstancePromises)
 
       const { offsetHash } = offset
       const { hashChain } = batch

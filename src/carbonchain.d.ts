@@ -10,5 +10,5 @@ declare function carbonChain(privateKey: any, network: any): Promise<{
     offset: (amount: any, transactionInfo: any, onBehalfOf: any) => Promise<any>;
     getOffset: (index: any) => Promise<any>;
     getBatch: (index: any) => Promise<any>;
-    check: (offsetIndex: any, batchIndex: any) => Promise<boolean>;
+    check: (offsetIndex: number, batchIndex: number) => Promise<boolean>;
 }>;

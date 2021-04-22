@@ -1,5 +1,5 @@
 /**
- * @description checar se o valor é um objeto ou um json
+ * @description check if the value is an object or a json
  * @param {*} value
  * @return boolean
  *
@@ -18,7 +18,7 @@ const isObjectOrJSON = value => {
 };
 
 /**
- * @description checa se o valor recevido é uma string e retorna um booleano
+ * @description checks if the receved value is a string and returns a boolean
  * @param {*} value
  * @return boolean
  *
