@@ -1,5 +1,5 @@
 /**
- * @description checa se o valor é NaN({}, null, undefined, {}, [], Symbol) e retorna true caso seja NaN
+ * @description checks if the value is NaN ({}, null, undefined, {}, [], Symbol) and returns true if it is NaN
  * @param {*} value
  * @return boolean
  *
