@@ -1,6 +1,7 @@
-const _ = require('lodash')
-const { soliditySha3 } = require('web3-utils')
 const { newKit } = require('./contractKit')
+
+const pick = require('./components/pick')
+const recalculateHashChain = require('./components/recalculateHashChain')
 
 const ERC20Abi = require('./abis/ERC20.json')
 const CarbonChainAbi = require('./abis/CarbonChain.json')
@@ -29,6 +30,7 @@ const getCarbonChainInstance = kit => new kit.web3.eth.Contract(CarbonChainAbi, 
 const carbonChain = async (privateKey, network) => {
   const kit = await newKit(privateKey, network)
   const [account] = await kit.web3.eth.getAccounts()
+
   const cMCO2Instance = getCMCO2Instance(kit)
   const carbonChainInstance = getCarbonChainInstance(kit)
 
@@ -70,7 +72,7 @@ const carbonChain = async (privateKey, network) => {
 
       if (!offset) return false
 
-      return _.pick(offset, OFFSET_FIELDS)
+      return pick(offset, OFFSET_FIELDS)
     },
     getBatch: async (index) => {
       // @todo add batches length to carbon chain? this will fail if there's no such index
@@ -78,7 +80,7 @@ const carbonChain = async (privateKey, network) => {
 
       if (!batch) return false
 
-      return _.pick(batch, BATCH_FIELDS)
+      return pick(batch, BATCH_FIELDS)
     },
     /**
      * 
@@ -88,40 +90,31 @@ const carbonChain = async (privateKey, network) => {
      */
     check: async (offsetIndex, batchIndex) => {
 
-      const carbonChainInstancePromises = [
-        carbonChainInstance.methods.transactions(offsetIndex).call(),
-        carbonChainInstance.methods.batches(batchIndex).call(),
-      ]
-
-      if (batchIndex <= 0)
-        carbonChainInstancePromises.push(Promise.resolve({ hashChain: 0 }))
-      else
-        carbonChainInstancePromises.push(carbonChainInstance.methods.batches(batchIndex - 1).call())
-
-      const [offset, batch, previousBatch] = await Promise.all(carbonChainInstancePromises)
-
-      const { offsetHash } = offset
-      const { hashChain } = batch
-      const { hashChain: previousHashChain } = previousBatch
-
       // @todo fromBlock - toBlock?
       const options = { fromBlock: 'earliest', filter: { batchIndex: [batchIndex] } }
-      const offsets = await carbonChainInstance.getPastEvents('CarbonOffset', options)
 
-      const includedInBatch = offsets.find(transaction => transaction.returnValues.offsetHash === offsetHash)
+      const carbonChainInstancePromises = [
+        carbonChainInstance.getPastEvents('CarbonOffset', options),
+        carbonChainInstance.methods.transactions(offsetIndex).call(),
+        carbonChainInstance.methods.batches(batchIndex).call(),
+        batchIndex === 0
+          ? { hashChain: 0 }
+          : carbonChainInstance.methods.batches(batchIndex - 1).call()
+      ]
+
+      const [
+        offsets,
+        { offsetHash },
+        { hashChain },
+        { hashChain: previousHashChain }
+      ] = await Promise.all(carbonChainInstancePromises)
+
+      const includedInBatch = offsets
+        .find(({ returnValues: { offsetHash: hash } }) => hash === offsetHash)
 
       if (!includedInBatch) return false
 
-      const calculatedHashChain = offsets.reduce(
-        (memo, transaction) => {
-          const { returnValues: { offsetHash: hash } } = transaction
-          const newHash = soliditySha3(memo, hash)
-          return newHash
-        },
-        previousHashChain
-      )
-
-      return calculatedHashChain === hashChain
+      return recalculateHashChain(offsets, previousHashChain) === hashChain
     }
   }
 }
