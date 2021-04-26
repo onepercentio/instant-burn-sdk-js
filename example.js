@@ -9,14 +9,17 @@ const { NETWORKS } = require('./src/contractKit');
     // console.log(await cc.getBalances())
     // console.log(await cc.approve())
     // console.log(await cc.getAllowance())
-    // console.log('getOffset', await cc.getOffset(0))
-    // console.log('getBatch', await cc.getBatch(0))
+    // console.log('getOffset', await cc.getOffset(2))
+    // console.log('getBatch', await cc.getBatch(1))
+
+    // console.log(await cc.offset(1, 'txinfo', 'me'))
 
     console.time('check function')
-    console.log(await cc.check(0, 0))
+    console.log(await cc.check(1))
     console.timeEnd('check function')
   } catch (error) {
-    console.log("🚀 ~ file: example.js ~ line 16 ~ error", error)
+    console.log(error)
+    console.log("🚀 ~ file: example.js ~ line 16 ~ error", error.message)
 
   }
 
