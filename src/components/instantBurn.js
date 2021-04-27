@@ -42,7 +42,6 @@ const instantBurn = (kit, cMCO2Instance, carbonChainInstance) => ({
     return CarbonOffset
   },
   getOffset: async (index) => {
-    // @todo add offsets length to carbon chain? this will fail if there's no such index
     const numberOfOffsets = await carbonChainInstance.methods.numberOfTransactions().call()
 
     if (index >= numberOfOffsets) {
@@ -56,10 +55,9 @@ const instantBurn = (kit, cMCO2Instance, carbonChainInstance) => ({
     return pick(offset, OFFSET_FIELDS)
   },
   getBatch: async (index) => {
-    // @todo add batches length to carbon chain? this will fail if there's no such index
-    const numberOfBatches = await carbonChainInstance.methods.numberOfBatches().call()
+    const numberOfTransactions = await carbonChainInstance.methods.numberOfTransactions().call()
 
-    if (index >= numberOfBatches) {
+    if (index >= numberOfTransactions) {
       throw new Error(`No batch at index ${index}`)
     };
 
@@ -76,9 +74,9 @@ const instantBurn = (kit, cMCO2Instance, carbonChainInstance) => ({
    * @return {Promise<boolean>}
    */
   check: async (offsetIndex) => {
-    const numberOfBatches = await carbonChainInstance.methods.numberOfBatches().call()
+    const numberOfTransactions = await carbonChainInstance.methods.numberOfTransactions().call()
 
-    if (offsetIndex >= numberOfBatches) {
+    if (offsetIndex >= numberOfTransactions) {
       throw new Error(`No offset at index ${offsetIndex}`)
     };
 
