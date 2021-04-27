@@ -1,5 +1,5 @@
 export = carbonChain;
-declare function carbonChain(privateKey: any, network: any): Promise<{
+declare function carbonChain(privateKey: string, network: 'TESTNET' | 'MAINNET'): Promise<{
     getBalances: () => Promise<{
         celo: any;
         cUSD: any;
@@ -10,5 +10,5 @@ declare function carbonChain(privateKey: any, network: any): Promise<{
     offset: (amount: any, transactionInfo: any, onBehalfOf: any) => Promise<any>;
     getOffset: (index: any) => Promise<any>;
     getBatch: (index: any) => Promise<any>;
-    check: (offsetIndex: number, batchIndex: number) => Promise<boolean>;
+    check: (offsetIndex: number) => Promise<boolean>;
 }>;
