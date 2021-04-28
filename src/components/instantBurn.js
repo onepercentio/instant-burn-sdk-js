@@ -49,9 +49,9 @@ const instantBurn = (kit, cMCO2Instance, carbonChainInstance) => ({
     return pick(offset, OFFSET_FIELDS)
   },
   getBatch: async (index) => {
-    const numberOfTransactions = await carbonChainInstance.methods.numberOfTransactions().call()
+    const numberOfBatches = await carbonChainInstance.methods.numberOfBatches().call()
 
-    if (index >= numberOfTransactions) {
+    if (index >= numberOfBatches) {
       throw new Error(`No batch at index ${index}`)
     };
 
