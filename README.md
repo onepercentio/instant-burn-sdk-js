@@ -158,7 +158,7 @@ Output:
 ### Check:
 
 ```js
-const isChecked = await cc.check(3, 1);
+const isChecked = await cc.check(3);
 
 console.log(isChecked);
 ```
