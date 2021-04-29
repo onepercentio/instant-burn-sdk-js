@@ -1,22 +1,41 @@
-const { describe, expect, test } = require('@jest/globals');
+const { describe, expect, test, beforeAll } = require('@jest/globals');
 
 const CarbonChain = require('../carbonchain');
-const { NETWORKS } = require('../contractKit');
 
-const privateKey = '0x8c5d63543d26797c41b0384e2d6c0e62822221e82fb4850d1b96d71d8452baf5'
+const privateKey = process.env.PRIVATE_KEY;
+
+let check;
 
 describe('integrated CarbonChain test', () => {
+
+  beforeAll(async () => {
+    const cc = await CarbonChain(privateKey, 'TESTNET')
+    check = cc.check
+  })
+
   test('Does CarbonChain check bring a boolean as a result?', async () => {
 
-    const { check } = await CarbonChain(privateKey, NETWORKS.TESTNET)
-
-    const result = await check(1, 0)
+    const result = await check(1)
 
     expect(result).not.toBeNull()
     expect(typeof result).toBe('boolean')
 
   })
 
-  // test('Does CarbonChain check bring true as a result?', () => { })
-  // test('Does CarbonChain check bring false as a result?', () => { })
+  test('offset is greater than number of transactions returns an error?', async () => {
+    const offsetIndex = 1000000
+    try {
+      await check(offsetIndex)
+    } catch (error) {
+      expect(error.message).toBe('No offset at index 1000000')
+    }
+
+  })
+
+  test('Does CarbonChain check bring false as a result?', async () => {
+    check = jest.fn(index => Promise.resolve(false))
+    const result = await check(1)
+    expect(result).toBeFalsy()
+  })
+
 })
