@@ -1,6 +1,7 @@
 const { newKit } = require('./contractKit')
 const instantBurn = require('./components/instantBurn')
 const InstanceContract = require('./components/instanceContract')
+const validatePrivateKeyAndNetWork = require('./components/validatePrivateKeyAndNetwork')
 
 const ERC20Abi = require('./abis/ERC20.json')
 const CarbonChainAbi = require('./abis/CarbonChain.json')
@@ -13,6 +14,7 @@ const constants = require('./constants')
  * @param {'TESTNET' | 'MAINNET'} network 
  */
 const carbonChain = async (privateKey, network) => {
+  validatePrivateKeyAndNetWork(privateKey, network)
   const kit = await newKit(privateKey, network)
   const { CMCO2_ADDRESS, CARBON_CHAIN_ADDRESS } = constants[network]
 

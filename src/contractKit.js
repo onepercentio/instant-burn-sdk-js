@@ -9,9 +9,6 @@ module.exports = {
    * @param {'TESTNET' | 'MAINNET'} network 
    */
   newKit: async (privateKey, network) => {
-    if (!privateKey) throw Error('Invalid private key')
-    if (!network) throw Error('Invalid network')
-
     const kit = newKit(constants[network].URL)
     kit.connection.addAccount(privateKey)
 
