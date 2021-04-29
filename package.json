@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "SDK for interacting with on-chain Instant Burn solution",
   "main": "index.js",
+  "types": "./src/types/index.d.ts",
   "scripts": {
     "test": "jest --coverage",
     "dev": "nodemon index.js",
