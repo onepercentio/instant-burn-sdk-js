@@ -22,7 +22,6 @@ describe('test to validate privateKey and network', () => {
   test('privateKey error message is "Invalid private key"?', () => {
     try {
       validatePrivateKeyAndNetwork(null, 'TESTNET')
-      // expect(true).toBe(false);
     } catch (error) {
       expect(error.message).toBe('Invalid private key')
     }
@@ -31,7 +30,6 @@ describe('test to validate privateKey and network', () => {
   test('network error message is "Invalid private key"?', () => {
     try {
       validatePrivateKeyAndNetwork('0x000000000000000000')
-      // expect(true).toBe(false);
     } catch (error) {
       expect(error.message).toBe('Invalid network')
     }
