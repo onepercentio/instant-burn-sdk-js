@@ -71,7 +71,6 @@ const instantBurn = (kit, cMCO2Instance, carbonChainInstance) => ({
     try {
 
       const numberOfTransactions = await carbonChainInstance.methods.numberOfTransactions().call()
-      console.log("🚀 ~ file: instantBurn.js ~ line 74 ~ check: ~ numberOfTransactions", numberOfTransactions)
 
       if (offsetIndex >= numberOfTransactions) {
         throw new Error(`No offset at index ${offsetIndex}`)
