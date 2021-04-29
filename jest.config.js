@@ -24,5 +24,8 @@ module.exports = {
   coveragePathIgnorePatterns: [
     '\\\\node_modules\\\\',
     '!*.d.ts'
+  ],
+  setupFiles: [
+    '<rootDir>/jest.env.js'
   ]
 };
