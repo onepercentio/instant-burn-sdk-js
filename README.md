@@ -1,30 +1,40 @@
 # instant-burn-sdk-js &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/onepercentio/instant-burn-sdk-js/blob/main/LICENSE)
 
-SDK for interacting with on-chain Instant Burn solution
+SDK for interacting with on-chain Instant Burn solution. 
+
+Moss's Instant Burn solution was develop to allow micro offset transactions to be registered on chain with (much) lower fees, making them economically viable.
+This is done by batching offset transactions on Celo before sending them to ethereum, therefore several offsets can be made with just one transaction.
+
+Single offsets are hashed and added to a hashchain, which in turn is added to each batch before it is closed and sent to ethereum, providing mathematical proof that a given offset was indeed included in a given batch. 
+
+To offset carbon you'll need cMCO2 tokens. cMCO2 tokens are MCO2 that were bridged from ethereum to Celo so 1 cMCO2 = 1 MCO2 = 1 carbon ton.
+
+When you send an offset transaction to the blockchain, the smart contract will collect cMCO2 from you wallet at the amount of carbon ton you're offsetting. For example, if you're offsetting 1Kg of carbon, the smart contract will transfer 0.001 cMCO2 from your wallet. So in order to allow the Carbon Chain smart contract to transfer cMCO2 from your wallet, you first need to ``approve`` at least the amount you intend to offset. Don't worry, the smart contract will only collect cMCO2 from your wallet if you call the offset transaction from your account!
+
+
 
 ## Installing
 
 Using npm:
 
 ```bash
-$ npm install carbonChain
+$ npm install carbon-chain
 ```
 
 Using yarn:
 
 ```bash
-$ yarn add carbonChain
+$ yarn add carbon-chain
 ```
 
 ## Example
 
-### to initialize carbonChain:
+### To initialize carbonChain:
 
 ```js
-const carbonChain = require('carbonChain');
+const { carbonChain, NETWORKS } = require('carbon-chain');
 
-const network = 'http://testenetwork.com';
-const privateKey = '0x0000000000000000000000000000000000000';
+const privateKey = '0x0000000000000000000000000000000000000'; // private key to your account
 
 const cc = await carbonChain(privateKey, NETWORKS.TESTNET);
 ```
