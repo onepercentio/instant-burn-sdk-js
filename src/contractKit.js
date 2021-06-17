@@ -9,7 +9,7 @@ module.exports = {
    * @param {'TESTNET' | 'MAINNET'} network 
    */
   newKit: async (privateKey, network) => {
-    const kit = newKit(constants[network].URL)
+    const kit = newKit(network.URL)
     kit.connection.addAccount(privateKey)
 
     const [account] = await kit.web3.eth.getAccounts()

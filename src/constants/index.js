@@ -7,7 +7,7 @@ const constants = Object.freeze({
   MAINNET: Object.freeze({
     URL: 'https://forno.celo.org',
     CMCO2_ADDRESS: '0x32a9fe697a32135bfd313a6ac28792dae4d9979d',
-    CARBON_CHAIN_ADDRESS: '',
+    CARBON_CHAIN_ADDRESS: '0x6c25425886c00d765cccf7f2A4fB785f42e40855',
   }),
   MAX_UINT256: '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
   OFFSET_FIELDS: ['carbonTon', 'transactionInfo', 'onBehalfOf', 'sender', 'offsetHash', 'batchNumber'],

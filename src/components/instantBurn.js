@@ -75,16 +75,15 @@ const instantBurn = (kit, cMCO2Instance, carbonChainInstance) => ({
       if (offsetIndex >= numberOfTransactions) {
         throw new Error(`No offset at index ${offsetIndex}`)
       };
-
       const { offsetHash, batchNumber: batchIndex } = await carbonChainInstance.methods.transactions(offsetIndex).call()
-
+      
       const carbonChainInstancePromises = [
         carbonChainInstance.methods.batches(batchIndex).call(),
-        batchIndex === 0
-          ? { hashChain: 0, blockNumber: DEPLOYMENT_BLOCK_NUMBER }
-          : carbonChainInstance.methods.batches(batchIndex - 1).call()
+        batchIndex === '0'
+        ? { hashChain: 0, blockNumber: DEPLOYMENT_BLOCK_NUMBER }
+        : carbonChainInstance.methods.batches(batchIndex - 1).call()
       ]
-
+      
       const [
         { hashChain, blockNumber: offsetBlockNumber },
         { hashChain: previousHashChain, blockNumber: previousBlockNumber }

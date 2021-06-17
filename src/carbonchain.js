@@ -16,7 +16,7 @@ const constants = require('./constants')
 const carbonChain = async (privateKey, network) => {
   validatePrivateKeyAndNetWork(privateKey, network)
   const kit = await newKit(privateKey, network)
-  const { CMCO2_ADDRESS, CARBON_CHAIN_ADDRESS } = constants[network]
+  const { CMCO2_ADDRESS, CARBON_CHAIN_ADDRESS } = network
 
   const cMCO2Instance = InstanceContract(kit)(ERC20Abi, CMCO2_ADDRESS)
   const carbonChainInstance = InstanceContract(kit)(CarbonChainAbi, CARBON_CHAIN_ADDRESS)
