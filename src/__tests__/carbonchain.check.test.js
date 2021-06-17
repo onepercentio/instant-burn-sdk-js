@@ -1,6 +1,7 @@
 const { describe, expect, test, beforeAll } = require('@jest/globals');
 
 const CarbonChain = require('../carbonchain');
+const { TESTNET } = require('../constants');
 
 const privateKey = process.env.PRIVATE_KEY;
 
@@ -9,7 +10,7 @@ let check;
 describe('integrated CarbonChain test', () => {
 
   beforeAll(async () => {
-    const cc = await CarbonChain(privateKey, 'TESTNET')
+    const cc = await CarbonChain(privateKey, TESTNET)
     check = cc.check
   })
 

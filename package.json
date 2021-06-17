@@ -1,6 +1,6 @@
 {
   "name": "instant-burn-sdk",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "SDK for interacting with on-chain Instant Burn solution",
   "main": "index.js",
   "types": "./src/types/index.d.ts",
